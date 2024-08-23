@@ -1,0 +1,14 @@
+# Menggunakan image Alpine Linux versi terbaru sebagai dasar
+FROM alpine:latest
+
+# (Opsional) Menambahkan metadata tentang maintainer image
+# LABEL maintainer="sirjosev"
+
+# # (Opsional) Memperbarui daftar paket dan menginstal paket tambahan jika diperlukan
+# RUN apk update && apk add --no-cache paket1 paket2 ...
+
+# (Opsional) Menyalin file atau direktori dari host ke dalam image
+# COPY file_atau_direktori_lokal /path/di/dalam/image
+
+# (Opsional) Menentukan perintah yang akan dijalankan saat container dimulai
+# CMD ["perintah", "argumen1", "argumen2"]
