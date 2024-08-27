@@ -1,14 +1,17 @@
-# Menggunakan image Alpine Linux versi terbaru sebagai dasar
-FROM alpine:latest
+FROM ubuntu:latest
 
-# (Opsional) Menambahkan metadata tentang maintainer image
-# LABEL maintainer="sirjosev"
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    tcpdump \
+    net-tools \
+    iputils-ping
 
-# # (Opsional) Memperbarui daftar paket dan menginstal paket tambahan jika diperlukan
-# RUN apk update && apk add --no-cache paket1 paket2 ...
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
 
-# (Opsional) Menyalin file atau direktori dari host ke dalam image
-# COPY file_atau_direktori_lokal /path/di/dalam/image
+COPY monitor_traffic.py .
 
-# (Opsional) Menentukan perintah yang akan dijalankan saat container dimulai
-# CMD ["perintah", "argumen1", "argumen2"]
+EXPOSE 5000
+
+CMD ["python3", "monitor_traffic.py"]
