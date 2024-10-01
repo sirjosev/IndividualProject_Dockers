@@ -1,0 +1,27 @@
+# Gunakan image Node.js resmi sebagai dasar
+FROM node:18-alpine
+
+# Set direktori kerja di dalam container
+WORKDIR /app
+
+# Salin file package.json dan package-lock.json (jika ada)
+# COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Salin seluruh kode sumber website Anda
+COPY . .
+
+# Build project Anda (jika diperlukan, sesuaikan dengan build command Anda)
+RUN npm run build
+
+# Expose port yang digunakan oleh server web Anda (jika ada)
+# Misalnya, jika Anda menggunakan server pengembangan yang berjalan di port 3000:
+# EXPOSE 3000
+# Command untuk menjalankan server web Anda (jika ada)
+# Misalnya, jika Anda menggunakan server pengembangan:
+# CMD ["npm", "run", "start"]
+
+# Untuk website statis, biasanya tidak perlu menjalankan server web di dalam container
+# Firebase Hosting akan menangani penyajian file-file statis Anda
