@@ -1,9 +1,10 @@
 version: '3'
 
 services:
+
   orderer.example.com:
     container_name: orderer.example.com
-    image: hyperledger/fabric-orderer:$IMAGE_TAG
+    image: hyperledger/fabric-orderer:latest
     environment:
       - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
@@ -19,11 +20,26 @@ services:
 
   peer0.org1.example.com:
     container_name: peer0.org1.example.com
-    image: hyperledger/fabric-peer:$IMAGE_TAG
+    image: hyperledger/fabric-peer:latest
     environment:
-      # ... (variabel lingkungan lainnya)
+      - CORE_PEER_ID: peer0.org1.example.com
+      - CORE_PEER_ADDRESS: peer0.org1.example.com:7051
+      - CORE_PEER_LISTENADDRESS: 0.0.0.0:7051
+      - CORE_CHAINCODE_LOGGING_LEVEL=DEBUG 
+      - CORE_CHAINCODE_LOGGING_SHIM=DEBUG
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_LOCALMSPID=Org1MSP 
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start
     ports:
-    - 7051:7051
-    # ... (volume dan dependensi lainnya)
+      - 7051:7051
+      - 7052:7052
+    volumes:
+        - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp:/etc/hyperledger/msp/peer
+        - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
+        - ./config:/etc/hyperledger/configtx
