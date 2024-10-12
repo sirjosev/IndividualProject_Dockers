@@ -12,6 +12,7 @@
     # pkgs.nodejs_20
     # pkgs.nodePackages.nodemon
     pkgs.docker
+    pkgs.docker-compose
   ];
 
   # Run docker (modified from self research)
